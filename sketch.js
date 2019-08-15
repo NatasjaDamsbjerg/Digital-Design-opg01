@@ -1,56 +1,59 @@
 /*
 Først laver vi et nogle variable til at lave en appelsin
  - en kugle som vi vil skyde afsted og fange i en turban
-*/
-
-var y = 550;
-var rad = 20;
-var yspeed = -10;
-var newspeed;
+*/ 
 
 var turban;
-var appelsin;
+var score = 0;
+var missed = 0;
+var appelsiner = []
 
+//Tid står for tid (Of course) hvilke er en mekanisme der bestemmer respawntiden
+
+/* 
+ * 
+ */
 function setup() {
     createCanvas(750, 600);
-    newspeed = yspeed;
     x = rad;
-    appelsin = new appelsiner(670, 100, 70, 50, 10);
     turban = new Kurv(670, 100, 70, 50, 10);
+    appelsiner.push(new Appelsin(670, 100, 70, 50, 10));
+
+    setInterval(function () {
+        appelsiner.push(new Appelsin(670, 100, 70, 50, 10));
+    }, 30000)
 }
 
 function draw() {
     background(0);
-    appelsin.move();
-    checkScore();
+    for (var i = 0; i < appelsiner.length; i++) {
+        var appelsin = appelsiner[i]
+        appelsin.checkScore(turban);
+        appelsin.move();
+        appelsin.appelsin();
+    }
+
     display();
+
     turban.move();
 }
 
 function display() {
-    fill(255);
-    text("Score: "+score, width-80, 30);
-    text("Missed: "+missed, width-80, 50);
-    // Her vises appelsinen
-    appelsin.tegn2();
-    // Her vises turbanen
+    fill(255)
+    text("Score: " + score, width - 80, 30);
+    text("Life: " + missed, width - 80, 50);
+
     turban.tegn();
+
 }
 
-this.checkScore = function() {
-    // Her checkes om turbanen har fanget appelsinen. Hvis ja, skydes en ny appelsin afsted
-    if (yspeed > 0) {
-        if (turban.grebet(x, y, rad)) {
-            score += 1;
-            appelsin.shootNew(); 
-        }
-    }
-}
+
 
 function keyPressed() {
+
 }
 
-function mousePressed(){
+function mousePressed() {
 
 }
 
