@@ -21,7 +21,7 @@ function Kurv(x, y, bredde, dybde, speed) {
     this.speed = speed;
     this.col = [250,230,150];
 
-//Her tegnes kurven, som appelsinerne gribes i
+//Her tegnes kurven, som appelsinerne gribes i. I dette tilfælde har jeg sat et billede ind som kurv.
 img= loadImage('Images/kurv.png');
     this.tegn = function() {
         fill(this.col);
@@ -34,7 +34,7 @@ img= loadImage('Images/kurv.png');
         this.y = mouseY
     }
 
-    //Funktionen grebet bestemmer hvordan kurven fanger appelsinerne
+    //Funktionen grebet bestemmer hvordan kurven fanger appelsinerne.
     this.grebet = function(xa, ya, ra) {
         if ((ya < this.y+40 && ya > this.y-40) && xa > this.x+ra && xa < this.x+this.bred-ra) {
             return true;

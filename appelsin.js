@@ -65,7 +65,7 @@ function Appelsin() {
         tid = (int)(Math.random() * 400);
     }
     this.checkScore = function (turban) {
-        // Her checkes om turbanen har fanget appelsinen. Hvis ja, skydes en ny appelsin afsted
+        // Her checkes om turbanen har fanget appelsinen. Hvis ja, skydes en ny appelsin afsted og scoren går 1 op.
         if (yspeed > 0) {
             if (turban.grebet(x, y, rad)) {
                 score += 1;
@@ -74,6 +74,7 @@ function Appelsin() {
             }
 
         }
+        //Her sørges for at når man misser en appelsin, så går missed/life 1 ned.
         if (x > width || y > height) {
             missed -= 1
             appelsin.shootNew();
