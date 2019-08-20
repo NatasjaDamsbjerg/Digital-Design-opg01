@@ -14,6 +14,7 @@ var appelsiner = []
  * 
  */
 function setup() {
+    var header = createElement('h1', 'Catch das Appelsinos');
     createCanvas(750, 600);
     x = rad;
     turban = new Kurv(670, 100, 70, 50, 10);
