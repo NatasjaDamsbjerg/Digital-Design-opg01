@@ -28,16 +28,17 @@ function Appelsin() {
     var newspeed = yspeed;
 
     this.appelsin = function () {
+        fill(col);
+        ellipse(x, y, rad * 2, rad * 2);
         //Her skal vi sørge for at appelsinen bliver vist, hvis den skal vises
         if (tid > 0) {
             tid -= 1;
         }
+        /*
         if (tid < 100) {
             fill(col);
             ellipse(x, y, rad * 2, rad * 2);
-        }
-
-        // Her vises turbanen - foreløbig blot en firkant
+        }*/
 
     }
 
@@ -48,12 +49,6 @@ function Appelsin() {
             y += yspeed;
             yspeed += grav;
         }
-        if (x > width || y > height) {
-            missed -= 1
-            this.shootNew();
-        }
-
-
     }
 
     this.shootNew = function () {
@@ -62,7 +57,7 @@ function Appelsin() {
         y = random(250, 550);
         yspeed = newspeed;
         xspeed = 6 * Math.random();
-        tid = (int)(Math.random() * 400);
+        //tid = (int)(Math.random() * 400);
     }
     this.checkScore = function (turban) {
         // Her checkes om turbanen har fanget appelsinen. Hvis ja, skydes en ny appelsin afsted og scoren går 1 op.
@@ -70,14 +65,11 @@ function Appelsin() {
             if (turban.grebet(x, y, rad)) {
                 score += 1;
                 this.shootNew();
-
             }
-
         }
-        //Her sørges for at når man misser en appelsin, så går missed/life 1 ned.
         if (x > width || y > height) {
             missed -= 1
-            appelsin.shootNew();
+            this.shootNew();
         }
     }
 }

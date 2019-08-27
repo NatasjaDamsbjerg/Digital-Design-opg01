@@ -14,19 +14,36 @@ function setup() {
     var status = document.getElementById('status');
     status.innerHTML = 'Igang';
     header = createElement('h1', 'Catch das Appelsinos');
-    createCanvas(750, 600);
+    createCanvas(650, 600);
     //status.parentNode.appendChild gør at min status vises under canvas frem for over.
     status.parentNode.appendChild(status);
     x = rad;
     turban = new Kurv(670, 100, 70, 50, 10);
-    appelsiner.push(new Appelsin(670, 100, 70, 50, 10));
+    if (confirm('Vil du joine et igangværende spil?')) {
+        var pin = prompt('Pin');
+        socket = ElineSocket.connect(pin);
+    }else{
+        socket = ElineSocket.create();
+    }
+    socket.onMessage(handleMessage);
+    
 
     /*Her sættes intervallet for hvornår der skal skydes en ekstra appelsin afsted, sådan at 
     der er mere en 1 appelsin på skærmen af gangen.
     */
-    setInterval(function () {
+    /*setInterval(function () {
         appelsiner.push(new Appelsin(670, 100, 70, 50, 10));
-    }, 30000)
+    }, 30000)*/
+}
+
+function handleMessage(msg) {
+    switch (msg.type) {
+        case 'shootNew':
+            appelsiner.push(new Appelsin(670, msg.y, 70, 50, 10));
+            break;
+        default:
+            console.log('Unknown message', msg);
+    }
 }
 
 function draw() {
@@ -50,7 +67,7 @@ function draw() {
         //Her vises Game Over skærmen, hvor der derefter kommer en "restart game" knap der refrescher siden.
         document.getElementById('status').innerHTML = 'Game Over';
         button = createButton('Restart Game');
-        button.position(300, 375);
+        button.position(300, 325);
         button.mousePressed(restartGame);
     }
     if (missed < 1){
@@ -68,17 +85,15 @@ function display() {
     fill(255)
     text("Score: " + score, width - 80, 30);
     text("Life: " + missed, width - 80, 50);
+    text("Pin: " + socket.id, width - 80, 10);
 
     turban.tegn();
 
 }
 
-
-
-function keyPressed() {
-
-}
-
-function mousePressed() {
-
+function mouseClicked() {
+    socket.sendMessage({
+        type: 'shootNew',
+        y: mouseY,
+    });
 }
